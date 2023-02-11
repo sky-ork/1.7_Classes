@@ -1,7 +1,6 @@
 # Задача №1 "Ферма Дядюшки Джо". Продолжение.
 class Animals:
     """Животные"""
-
     def __init__(self, name, weight, satiety=5):
         self.name = name
         self.weight = weight
@@ -11,9 +10,14 @@ class Animals:
         self.satiety += eat
         return 'Покормили'
 
+    def speak(self):
+        return self.voice
 
-class Milk(Animals):
+
+class Milk:
     """Животные, дающие молоко"""
+    def __init__(self, satiety):
+        self.satiety = satiety
 
     def milking(self):
         if self.satiety >= 5:
@@ -26,8 +30,10 @@ class Milk(Animals):
             return 'Нужно покормить.'
 
 
-class Wool(Animals):
+class Wool:
     """Животные, с которых можно настричь шерсть"""
+    def __init__(self, satiety):
+        self.satiety = satiety
 
     def cut(self):
         if self.satiety >= 5:
@@ -40,8 +46,10 @@ class Wool(Animals):
             return 'Нужно покормить.'
 
 
-class Eggs(Animals):
+class Eggs:
     """Животные, несущие яйца"""
+    def __init__(self, satiety):
+        self.satiety = satiety
 
     def coll_eggs(self):
         if self.satiety >= 5:
@@ -54,16 +62,16 @@ class Eggs(Animals):
             return 'Нужно покормить.'
 
 
-class Cow(Milk):
+class Cow(Animals, Milk):
     """Корова"""
     animal_type = "Корова"
-    speak = "Мууу"
+    voice = "Мууу"
 
 
-class Goat(Milk):
+class Goat(Animals, Milk):
     """Коза"""
     animal_type = "Коза"
-    speak = "Меее"
+    voice = "Меее"
 
     def milking(self):
         if self.satiety >= 5:
@@ -76,41 +84,37 @@ class Goat(Milk):
             return 'Нужно покормить.'
 
 
-class Ram(Wool):
+class Ram(Animals, Wool):
     """Баран"""
     animal_type = "Баран"
-    speak = "Беее"
+    voice = "Беее"
 
 
-class Goose(Eggs):
+class Goose(Animals, Eggs):
     """Гусь"""
     animal_type = "Гусь"
-    speak = "Гага"
+    voice = "Гага"
 
 
-class Hen(Eggs):
+class Hen(Animals, Eggs):
     """Курица"""
     animal_type = "Курица"
-    speak = "Коооо"
+    voice = "Коооо"
 
 
-class Duck(Eggs):
+class Duck(Animals, Eggs):
     """Утка"""
     animal_type = "Утка"
-    speak = "Крякря"
+    voice = "Крякря"
 
 
 def main():
-    manya = Cow("Манька", 720, 2)
-    roga = Goat("Рога", 120)
-    kopyta = Goat("Копыта", 90)
-    barash = Ram("Барашек", 45)
-    kudryav = Ram("Кудрявый", 50)
-    seriy = Goose("Серый", 3)
-    beliy = Goose("Белый", 4)
-    ko_ko = Hen("Ко-Ко", 3)
-    kukareku = Hen("Кукареку", 4)
-    kryakva = Duck("Кряква", 1)
+    manya = Cow("Манька", 720, 6)
+    roga, kopyta = Goat("Рога", 120, 8), Goat("Копыта", 90)
+    barash, kudryav = Ram("Барашек", 45), Ram("Кудрявый", 50)
+    seriy, beliy = Goose("Серый", 3, 3), Goose("Белый", 4)
+    ko_ko, kukareku = Hen("Ко-Ко", 3, 9), Hen("Кукареку", 4)
+    kryakva = Duck("Кряква", 1, 1)
     animals = [manya, roga, kopyta, barash, kudryav, seriy, beliy, ko_ko, kukareku, kryakva]
     total_weight = 0
     weight = 0
@@ -124,6 +128,11 @@ def main():
 
     print(f'Общий вес животных: {total_weight}.')
     print(f'Самое тяжелое животное: {name_animal_max_weight}.')
+
+    for animal in animals:
+        print(f'{animal.feed(1)} животное {animal.animal_type.lower()} "{animal.name}"')
+        print(animal.speak())
+        print(f'Сытость увеличилась до {animal.satiety}\n{"-" * 20}')
 
 
 if __name__ == __name__:
